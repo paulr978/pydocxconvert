@@ -20,9 +20,9 @@ class PyDocxConverter(object):
         }
         return namespaces
 
-    def convert_to_html(self):
+    def convert_to_html(self, *args, **kwargs):
         handler = _HtmlConvertHandler(self.root, self.ns)
-        return handler.exec()
+        return handler.exec(*args, **kwargs)
 
 
 class _ConvertHandler(object):
@@ -30,8 +30,8 @@ class _ConvertHandler(object):
         self.ns = ns
         self.doc_root = doc_root
 
-    def exec(self):
-        pass
+    def exec(self, *args, **kwargs):
+        raise NotImplementedError()
 
 
 class _HtmlConvertHandler(_ConvertHandler):
@@ -177,7 +177,7 @@ class _HtmlConvertHandler(_ConvertHandler):
         for child in xml_el:
             self._process_tag(child, output)
 
-    def exec(self):
+    def exec(self, *args, **kwargs):
         body = self.doc_root.find('w:body', self.ns)
 
         output = []
