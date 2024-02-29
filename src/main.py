@@ -12,6 +12,15 @@ class PyDocxConverter(object):
         self.ns = self._get_namespaces()
         self.body = self.root.find('w:body', self.ns)
 
+        docx_files = {}
+        files = docx_zip.filelist
+        for file in files:
+            docx_files[file.filename] = file
+
+        if 'word/numbering.xml' in docx_files:
+            numbering_xml = docx_zip.read('word/numbering.xml').decode("utf-8")
+            print(numbering_xml)
+
         print(doc_xml)
 
     def _get_namespaces(self):
